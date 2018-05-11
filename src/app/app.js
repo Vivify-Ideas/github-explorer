@@ -2,24 +2,9 @@ import angular from 'angular';
 
 import '../style/app.css';
 
-let app = () => {
-  return {
-    template: require('./app.html'),
-    controller: 'AppCtrl',
-    controllerAs: 'app'
-  }
-};
+import githubExplorerDirective from '../github-explorer/github-explorer-directive';
+import githubExplorerCtrl from '../github-explorer/github-explorer-ctrl';
 
-class AppCtrl {
-  constructor() {
-    this.url = 'https://github.com/preboot/angular-webpack';
-  }
-}
-
-const MODULE_NAME = 'app';
-
-angular.module(MODULE_NAME, [])
-  .directive('app', app)
-  .controller('AppCtrl', AppCtrl);
-
-export default MODULE_NAME;
+angular.module('githubExplorerApp', [])
+       .directive('githubExplorer', githubExplorerDirective)
+       .controller('githubExplorerCtrl', githubExplorerCtrl);
