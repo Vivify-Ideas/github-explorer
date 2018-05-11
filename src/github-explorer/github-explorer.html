@@ -5,21 +5,31 @@
     <thead>
       <tr>
         <th>Name</th>
-        <th>Language</th>
+        <th>License</th>
         <th><a href="" ng-click="githubExplorer.toggleOrder('stars')">Stars</a></th>
-        <th>Watchers</th>
         <th><a href="" ng-click="githubExplorer.toggleOrder('forks')">Forks</a></th>
+        <th>Watchers</th>
         <th>Open issues</th>
         <th>Created</th>
         <th><a href="" ng-click="githubExplorer.toggleOrder('updated')">Updated</a></th>
       </tr>
     </thead>
     <tbody>
+      <tr>
+        <td></td>
+        <td><input size="10" ng-model-options="{debounce: 500}" type="text" ng-model="githubExplorer.filter.license"></td>
+        <td><input size="10" ng-model-options="{debounce: 500}" type="text" ng-model="githubExplorer.filter.stars"></td>
+        <td><input size="10" ng-model-options="{debounce: 500}" type="text" ng-model="githubExplorer.filter.forks"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
       <tr ng-repeat="repo in githubExplorer.repos track by repo.id">
         <td>
-          <!-- <img width="24" ng-src="{{ repo.owner.avatar_url }}"> -->
           <a target="_blank" ng-href="{{ repo.html_url }}">{{ repo.full_name }}</a></td>
-        <td>{{ repo.language }}</td>
+        <td>{{ repo.license.name }}</td>
         <td>{{ repo.stargazers_count }}</td>
         <td>{{ repo.watchers_count }}</td>
         <td>{{ repo.forks_count }}</td>

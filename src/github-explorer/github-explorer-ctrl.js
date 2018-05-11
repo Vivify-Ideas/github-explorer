@@ -13,13 +13,32 @@ export default class GithubExplorerCtrl {
     this.totalCount = 0;
     this.order = 'desc';
     this.sort = 'stars';
+    this.filter = {
+      license: '',
+      stars: '',
+      forks: ''
+    };
 
+    this.registerWatchers($scope);
+  }
+
+  registerWatchers($scope) {
     $scope.$watch(() => {
       return this.searchQuery;
     }, () => {
       this.page = 1;
       this.searchRepos()
-    })
+    });
+
+    $scope.$watch(() => {
+      return this.filter;
+    }, (val, oldVal) => {
+      if (val === oldVal) {
+        return;
+      }
+      this.page = 1;
+      this.searchRepos()
+    }, true)
   }
 
   calculateOrder() {
@@ -69,6 +88,24 @@ export default class GithubExplorerCtrl {
     this.searchRepos();
   }
 
+  composeSearchQuery() {
+    let filter = '';
+
+    if (this.filter.license) {
+      filter = ' license:' + this.filter.license;
+    }
+
+    if (this.filter.stars) {
+      filter += ' stars:' + this.filter.stars;
+    }
+
+    if (this.filter.forks) {
+      filter += ' forks:' + this.filter.forks;
+    }
+
+    return this.searchQuery + filter;
+  }
+
   searchRepos() {
     if (!this.searchQuery) {
       this.repos = [];
@@ -77,7 +114,7 @@ export default class GithubExplorerCtrl {
 
     this.$http.get(
       GITHUB_BASE_URL + '/search/repositories',
-      { params: {q: this.searchQuery, sort: this.sort, order: this.order, page: this.page} }
+      { params: {q: this.composeSearchQuery(), sort: this.sort, order: this.order, page: this.page} }
     ).then((resp) => {
       this.repos = resp.data.items;
       this.totalCount = resp.data.total_count;
