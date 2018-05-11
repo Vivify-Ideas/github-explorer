@@ -1,23 +1,37 @@
 <div>
   <input type="text" ng-model-options="{debounce: 500}" ng-model="githubExplorer.searchQuery">
+
   <table>
     <thead>
       <tr>
         <th>Name</th>
-        <th>Owner</th>
-        <th>Description</th>
         <th>Language</th>
-        <th>Stars</th>
+        <th><a href="" ng-click="githubExplorer.toggleOrder('stars')">Stars</a></th>
         <th>Watchers</th>
+        <th><a href="" ng-click="githubExplorer.toggleOrder('forks')">Forks</a></th>
+        <th>Open issues</th>
         <th>Created</th>
-        <th>Updated</th>
+        <th><a href="" ng-click="githubExplorer.toggleOrder('updated')">Updated</a></th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="repo in githubExplorer.repos track by repo.id">
-        <td>{{ repo.full_name }}</td>
+        <td>
+          <!-- <img width="24" ng-src="{{ repo.owner.avatar_url }}"> -->
+          <a target="_blank" ng-href="{{ repo.html_url }}">{{ repo.full_name }}</a></td>
+        <td>{{ repo.language }}</td>
+        <td>{{ repo.stargazers_count }}</td>
+        <td>{{ repo.watchers_count }}</td>
+        <td>{{ repo.forks_count }}</td>
+        <td>{{ repo.open_issues_count }}</td>
+        <td>{{ repo.created_at | date }}</td>
+        <td>{{ repo.updated_at | date }}</td>
       </tr>
     </tbody>
-    <tfoot></tfoot>
   </table>
+  <footer ng-if="githubExplorer.getPageCount()">
+    <a href="" ng-click="githubExplorer.prevPage()">&lt;</a>
+    Page {{ githubExplorer.page }} of {{ githubExplorer.getPageCount() }}
+    <a href="" ng-click="githubExplorer.nextPage()">&gt;</a>
+  <footer>
 </div>
