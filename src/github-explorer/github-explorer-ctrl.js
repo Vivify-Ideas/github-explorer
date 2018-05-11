@@ -1,4 +1,3 @@
-import angular from 'angular';
 import { GITHUB_BASE_URL } from '../app/constants';
 
 export default class GithubExplorerCtrl {
@@ -41,7 +40,7 @@ export default class GithubExplorerCtrl {
     }, true)
   }
 
-  calculateOrder() {
+  calculateNewOrder() {
     let order = 'desc';
 
     if (this.order) {
@@ -82,12 +81,13 @@ export default class GithubExplorerCtrl {
   }
 
   toggleOrder(sort) {
-    let order = this.calculateOrder();
+    let order = this.calculateNewOrder();
     this.sort = sort;
     this.page = 1;
     this.searchRepos();
   }
 
+  // this formats the filter so GitHub API can read it
   composeSearchQuery() {
     let filter = '';
 
@@ -118,9 +118,6 @@ export default class GithubExplorerCtrl {
     ).then((resp) => {
       this.repos = resp.data.items;
       this.totalCount = resp.data.total_count;
-    })
-    .catch((error) => {
-      alert(error.data.message);
     });
   }
 
