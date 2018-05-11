@@ -1,4 +1,4 @@
-# angularjs-webpack
+# GitHub Explorer
 
 ## Quick start
 
